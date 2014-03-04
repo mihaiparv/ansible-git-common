@@ -1,0 +1,10 @@
+---
+- name: ensure the latest git-core packages is installed
+  yum: name=git-core state=present
+  when: git_version is not defined
+  tags: git
+
+- name: ensure the specific version git-core packages is installed
+  yum: name=git-core-{{ git_version }} state=present
+  when: git_version is defined
+  tags: git

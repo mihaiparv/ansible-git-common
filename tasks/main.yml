@@ -1,0 +1,9 @@
+---
+- include: RedHat.yml
+  when: ansible_os_family == 'RedHat'
+  tags: git
+
+- include: Debian.yml
+  when: ansible_os_family == 'Debian'
+  tags: git
+

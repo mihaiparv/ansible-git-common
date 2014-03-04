@@ -1,0 +1,22 @@
+---
+- name: ensure dependencies are installed
+  apt: name={{ item }} state=present
+  with_items:
+  - python-apt
+  - python-pycurl
+  tags: git
+
+- name: ensure the git repository is installed
+  apt_repository: repo='{{ git_debian_repository }}'
+                  update_cache='yes'
+  tags: git
+
+- name: ensure the git latest package is installed
+  apt: name=git state=present
+  when: git_version is not defined
+  tags: git
+
+- name: ensure the specific version git package is installed
+  apt: name=git={{ git_version }} state=present
+  when: git_version is defined
+  tags: git
