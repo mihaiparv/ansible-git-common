@@ -1,9 +1,48 @@
 ---
-- include: RedHat.yml
-  when: ansible_os_family == 'RedHat'
-  tags: git
-
-- include: Debian.yml
+- name: ensure dependencies are installed for Debian systems
+  apt: pkg={{ item }} state=present
+  with_items:
+  - libcurl4-openssl-dev
+  - libexpat1-dev
+  - gettext
+  - libz-dev
+  - libssl-dev
+  - build-essential
   when: ansible_os_family == 'Debian'
   tags: git
 
+- name: ensure dependencies are installed for RedHat systems
+  yum: name={{ item }} state=present
+  with_items:
+  - curl-devel
+  - expat-devel
+  - gettext-devel
+  - openssl-devel
+  - zlib-devel
+  - gcc
+  - perl-ExtUtils-MakeMaker
+  when: ansible_os_family == 'RedHat'
+  tags: git
+
+- name: ensure the package is downloaded to the temp directory
+  get_url: url={{ git_remote_package }}
+           dest=/tmp/{{ git_package_name }}.tar.gz
+           force=yes
+  tags: git
+
+- name: ensure the package is unpacked
+  command: tar zxvf /tmp/{{ git_package_name }}.tar.gz
+           chdir=/tmp
+           creates=/tmp/{{ git_package_name }}
+  tags: git
+
+- name: ensure the package is compiled
+  command: make prefix=/usr/local all
+           chdir=/tmp/{{ git_package_name }}
+           creates=/tmp/{{ git_package_name }}/bin-wrappers
+  tags: git
+
+- name: ensure the package is installed
+  command: make prefix=/usr/local install
+           chdir=/tmp/{{ git_package_name }}
+  tags: git

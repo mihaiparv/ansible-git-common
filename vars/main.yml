@@ -1,2 +1,3 @@
 ---
-git_debian_repository: 'ppa:git-core/ppa'
+git_remote_package: "https://github.com/git/git/archive/{{ 'v'~git_version if git_version is defined else 'master' }}.tar.gz"
+git_package_name: "git-{{ git_version | default('master') }}"
