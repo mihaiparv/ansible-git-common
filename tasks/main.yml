@@ -2,7 +2,7 @@
 - name: ensure dependencies are installed for Debian systems
   apt: pkg={{ item }} state=present
   with_items:
-  - libcurl4-openssl-dev
+  - libcurl4-gnutls-dev
   - libexpat1-dev
   - gettext
   - libz-dev
