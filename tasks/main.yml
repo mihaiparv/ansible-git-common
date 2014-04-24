@@ -37,12 +37,12 @@
   tags: git
 
 - name: ensure the package is compiled
-  command: make prefix=/usr/local all
+  command: make prefix={{ git_make_prefix }} all
            chdir=/tmp/{{ git_package_name }}
            creates=/tmp/{{ git_package_name }}/bin-wrappers
   tags: git
 
 - name: ensure the package is installed
-  command: make prefix=/usr/local install
+  command: make prefix={{ git_make_prefix }} install
            chdir=/tmp/{{ git_package_name }}
   tags: git

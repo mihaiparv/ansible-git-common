@@ -19,6 +19,9 @@ them are as follows.
     # The version to install
     git_version: '1.8.5.5'
 
+    # The make prefix to use
+    git_make_prefix: '/usr/local'
+
 
 Examples
 ========
@@ -30,12 +33,13 @@ Examples
       - ansible-git-common
 
 
-2) Install specific git version
+2) Install specific git version in /usr
 
     - hosts: all
       roles:
-      - {role:        'ansible-git-common',
-         git_version: '1.8.5.5'}
+      - {role:            'ansible-git-common',
+         git_version:     '1.8.5.5',
+         git_make_prefix: '/usr'}
 
 Dependencies
 ------------
